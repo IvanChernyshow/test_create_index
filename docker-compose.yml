@@ -1,0 +1,17 @@
+version: "3"
+
+
+services:
+ elasticsearch: 
+  build: elasticsearch/
+  container_name: elastic
+  ports:
+   - 9200:9200
+   - 9300:9300
+  network_mode: host
+  restart: always
+ one-shot:
+  build: python_create_index/
+  depends_on:
+    - elasticsearch
+  network_mode: host
