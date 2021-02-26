@@ -12,6 +12,10 @@ services:
   restart: always
  one-shot:
   build: python_create_index/
+  container_name: one-shot
+  environment:
+   - HOST=$HOST
+   - PORT=$PORT
   depends_on:
     - elasticsearch
   network_mode: host

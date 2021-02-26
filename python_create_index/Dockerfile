@@ -6,5 +6,6 @@ ADD . /python_create_index
 
 RUN pip install elasticsearch 
 
+
 ENTRYPOINT [ "python" ]
 CMD [ "create_index.py" ]

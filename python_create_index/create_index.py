@@ -1,16 +1,25 @@
 from elasticsearch import Elasticsearch
-import time
+import time, os, json
 
 file_json = open("json")
-json_data = file_json.read()
+json_data = json.loads(file_json.read())
 
-es = Elasticsearch([{'host': 'localhost', 'ports': 9200}])
 
-while es.ping() == False:
-    time.sleep(10)
+host = os.environ.get('HOST')
+port = os.environ.get('PORT')
 
-if es.ping() == True:
-    es.index(index='index', doc_type='project', id=1, body=json_data)
-    print("created index")
-else:
-    print("not created")
+
+es = Elasticsearch([{'host': host, 'port': port}])
+
+
+def create_index():
+    while es.ping() == False:
+        time.sleep(10)
+        print("conection refused")
+        continue
+    else:
+        print("conection succesful")
+        es.index(index=json_data['index'], doc_type=json_data['doc_type'], id=json_data['id'], body=json_data['body'])
+        print("created index")
+
+create_index()
